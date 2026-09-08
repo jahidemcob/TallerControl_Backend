@@ -1,0 +1,52 @@
+# -- Carpeta de Visual Studio (NO se debe subir)
+.vs/
+
+# -- Compilados de .NET (binarios, temporales)
+bin/
+obj/
+
+# -- Configuración específica del usuario en .NET
+*.user
+*.suo
+
+# -- Archivos generados automáticamente por VSCode
+.vscode/
+
+# -- Archivos de publicación
+publish/
+out/
+
+# -- Configuración local de certificados (si aparece)
+*.pfx
+
+# -- Archivos temporales del sistema
+Thumbs.db
+
+# SonarQube
+.sonarqube/
+
+# SonarQube cache (extra seguridad)
+.sonarqube-cache/
+
+# Archivos de build de Visual Studio
+*.cache
+*.db
+*.opendb
+
+# Variables de entorno (contraseñas, claves JWT)
+.env
+.env.*
+!.env.example
+
+#logs 
+logs/
+*.log
+
+# Proyecto de tests (carpeta dentro de Backend)
+Backend.Tests/
+
+# Sonar
+.sonarqube/
+
+# Cobertura
+coverage/
