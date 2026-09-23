@@ -2,7 +2,7 @@
 using Backend.src.app.auth.application.Exceptions;
 using Backend.src.app.Features.Services.application.exceptions;
 using Backend.src.app.Features.Users.application.Exceptions;
-//using Backend.src.app.Features.Motobikes.application.exceptions;
+using Backend.src.app.Features.Motobikes.application.exceptions;
 using Backend.src.app.Integrations.ExternalAPIs.Replacements.Application.Exceptions;
 //using Backend.src.app.Features.Finances.Application.Exceptions;
 using Backend.src.app.Shared.exceptions;
@@ -64,8 +64,8 @@ public class ErrorHandlerMiddleware
             ServiceNotUpdatedException => (StatusCodes.Status400BadRequest, ex.Message),
 
             // MOTORBIKES
-            //MotorbikeValidationException => (StatusCodes.Status400BadRequest, ex.Message),
-            //MotorbikeNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
+            MotorbikeValidationException => (StatusCodes.Status400BadRequest, ex.Message),
+            MotorbikeNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
 
             // REPLACEMENTS
              ExternalServiceException => (StatusCodes.Status503ServiceUnavailable, ex.Message),
