@@ -2,7 +2,7 @@
 using Backend.src.app.auth.infrastructure.Context;
 using Backend.src.app.Features.Users.infrastructure.Context;
 using Backend.src.app.Features.Services.infrastructure.Context;
-// using Backend.src.app.Features.Motobikes.infrastructure.Context;
+using Backend.src.app.Features.Motobikes.infrastructure.Context;
 // using Backend.src.app.Features.Appointments.Infrastructure.Context;
 // using Backend.src.app.Features.Finances.Infrastructure.Context;
 using Backend.src.app.auth.domain.entities;
@@ -46,14 +46,14 @@ public static class DbInitializer
         var authDb = services.GetRequiredService<AuthDbContext>();
         var usersDb = services.GetRequiredService<UsersDbContext>();
         var servicesDb = services.GetRequiredService<ServicesDbContext>();
-        //var motobikesDb = services.GetRequiredService<MotobikesDbContext>();
+        var motobikesDb = services.GetRequiredService<MotobikesDbContext>();
         //var appointmentsDb = services.GetRequiredService<AppointmentsDbContext>();
        // var financesDb = services.GetRequiredService<FinancesDbContext>();
 
         await authDb.Database.MigrateAsync();
         await usersDb.Database.MigrateAsync();
         await servicesDb.Database.MigrateAsync();
-        //await motobikesDb.Database.MigrateAsync();
+        await motobikesDb.Database.MigrateAsync();
         //await appointmentsDb.Database.MigrateAsync();
         //await financesDb.Database.MigrateAsync();
     }
@@ -62,7 +62,7 @@ public static class DbInitializer
     {
         var authDb = services.GetRequiredService<AuthDbContext>();
         var usersDb = services.GetRequiredService<UsersDbContext>();
-
+     
         await SeedRolesAsync(authDb);
         await SeedAdminUserAsync(authDb, usersDb);
     }

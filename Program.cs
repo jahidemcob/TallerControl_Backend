@@ -29,30 +29,11 @@ using Backend.src.app.Features.Services.domain.repositories;
 using Backend.src.app.Features.Services.infrastructure.Context;
 using Backend.src.app.Features.Services.infrastructure.repositories;
 
-/* MOTOBIKES
-builder.Services.AddScoped<CreateMotorbikeUsecase>();
-builder.Services.AddScoped<GetAllMotorbikesUsecase>();
-builder.Services.AddScoped<GetByIdMotorbikeUsecase>();
-builder.Services.AddScoped<UpdateMotorbikeUsecase>();
-builder.Services.AddScoped<UpdateStatusMotorbikeUsecase>();
-
-
-// APPOINTMENTS
-builder.Services.AddScoped<CreateAppointmentUseCase>();
-builder.Services.AddScoped<GetAllAppointmentsUseCase>();
-builder.Services.AddScoped<GetAppointmentByIdUseCase>();
-builder.Services.AddScoped<GetAppointmentsByStateUseCase>();
-builder.Services.AddScoped<GetAppointmentsByUserIdUseCase>();
-builder.Services.AddScoped<GetAppointmentsByEmployeeIdUseCase>();
-builder.Services.AddScoped<UpdateAppointmentStateUseCase>();
-builder.Services.AddScoped<AssignAppointmentToEmployeeUseCase>();
-
-
-// FINANCES
-builder.Services.AddScoped<CreateMovementUseCase>();
-builder.Services.AddScoped<GetAllMovementsUseCase>();
-builder.Services.AddScoped<GetMovementByIdUseCase>();
-builder.Services.AddScoped<GetMovementsByTypeUseCase>(); */
+// MOTOBIKES MODULE
+using Backend.src.app.Features.Motobikes.application.usecases;
+using Backend.src.app.Features.Motobikes.domain.repository;
+using Backend.src.app.Features.Motobikes.infrastructure.Context;
+using Backend.src.app.Features.Motobikes.infrastructure.repositories;
 
 // SHARED
 using Backend.src.app.Shared.Security;
@@ -159,13 +140,13 @@ builder.Services.AddDbContext<ServicesDbContext>(options =>
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
 
-/* builder.Services.AddDbContext<MotobikesDbContext>(options =>
+builder.Services.AddDbContext<MotobikesDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString(ConnectionStrings.Default),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
 
-builder.Services.AddDbContext<AppointmentsDbContext>(options =>
+/* builder.Services.AddDbContext<AppointmentsDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString(ConnectionStrings.Default),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
@@ -182,7 +163,7 @@ builder.Services.AddDbContext<FinancesDbContext>(options =>
 builder.Services.AddScoped<IUserManagementRepository, UserManagementRepository>();
 builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IServicesRepository, ServiceRepository>();
-// builder.Services.AddScoped<IMotorbikesRepository, MotorbikesRepository>();
+builder.Services.AddScoped<IMotorbikesRepository, MotorbikesRepository>();
 builder.Services.AddHttpClient<IReplacementsRepository, ReplacementsApiService>();
 // builder.Services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
 // builder.Services.AddScoped<IFinancesRepository, FinancesRepository>();
@@ -211,25 +192,28 @@ builder.Services.AddScoped<UpdateServiceStatusUsecase>();
 builder.Services.AddScoped<GetServiceByIdUseCase>();
 builder.Services.AddScoped<GetAllServicesUseCase>();
 
-/* MOTOBIKES MODULE
-using Backend.src.app.Features.Motobikes.application.usecases;
-using Backend.src.app.Features.Motobikes.domain.repository;
-using Backend.src.app.Features.Motobikes.infrastructure.Context;
-using Backend.src.app.Features.Motobikes.infrastructure.repositories;
+// MOTOBIKES
+builder.Services.AddScoped<CreateMotorbikeUsecase>();
+builder.Services.AddScoped<GetAllMotorbikesUsecase>();
+builder.Services.AddScoped<GetByIdMotorbikeUsecase>();
+builder.Services.AddScoped<UpdateMotorbikeUsecase>();
+builder.Services.AddScoped<UpdateStatusMotorbikeUsecase>();
 
+/* APPOINTMENTS
+builder.Services.AddScoped<CreateAppointmentUseCase>();
+builder.Services.AddScoped<GetAllAppointmentsUseCase>();
+builder.Services.AddScoped<GetAppointmentByIdUseCase>();
+builder.Services.AddScoped<GetAppointmentsByStateUseCase>();
+builder.Services.AddScoped<GetAppointmentsByUserIdUseCase>();
+builder.Services.AddScoped<GetAppointmentsByEmployeeIdUseCase>();
+builder.Services.AddScoped<UpdateAppointmentStateUseCase>();
+builder.Services.AddScoped<AssignAppointmentToEmployeeUseCase>();
 
-// APPOINTMENTS MODULE
-using Backend.src.app.Features.Appointments.Application.Usecases;
-using Backend.src.app.Features.Appointments.Domain.Interfaces;
-using Backend.src.app.Features.Appointments.Infrastructure.Context;
-using Backend.src.app.Features.Appointments.Infrastructure.Repository;
-
-
-// FINANCES MODULE
-using Backend.src.app.Features.Finances.Application.UseCases;
-using Backend.src.app.Features.Finances.Domain.Interfaces;
-using Backend.src.app.Features.Finances.Infrastructure.Context;
-using Backend.src.app.Features.Finances.Infrastructure.Repository; */
+// FINANCES
+builder.Services.AddScoped<CreateMovementUseCase>();
+builder.Services.AddScoped<GetAllMovementsUseCase>();
+builder.Services.AddScoped<GetMovementByIdUseCase>();
+builder.Services.AddScoped<GetMovementsByTypeUseCase>();*/
 
 // INTEGRATIONS
 builder.Services.AddScoped<GetAllReplacementsUsecase>();
