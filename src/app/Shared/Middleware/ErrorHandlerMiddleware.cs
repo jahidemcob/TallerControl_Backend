@@ -1,4 +1,4 @@
-﻿//using Backend.src.app.Features.Appointments.Application.Exceptions;
+﻿using Backend.src.app.Features.Appointments.Application.Exceptions;
 using Backend.src.app.auth.application.Exceptions;
 using Backend.src.app.Features.Services.application.exceptions;
 using Backend.src.app.Features.Users.application.Exceptions;
@@ -72,13 +72,13 @@ public class ErrorHandlerMiddleware
              ReplacementNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
 
             // APPOINTMENTS
-             /*AppointmentValidationException => (StatusCodes.Status400BadRequest, ex.Message),
+             AppointmentValidationException => (StatusCodes.Status400BadRequest, ex.Message),
              AppointmentNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
              InvalidAppointmentStateTransitionException => (StatusCodes.Status409Conflict, ex.Message),
              InvalidEmployeeAssignmentException => (StatusCodes.Status400BadRequest, ex.Message),
 
             // FINANCES
-            MovementNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
+            /*MovementNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
             MovementValidationException => (StatusCodes.Status400BadRequest, ex.Message),*/
 
             // DEFAULT

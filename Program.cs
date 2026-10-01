@@ -35,6 +35,18 @@ using Backend.src.app.Features.Motobikes.domain.repository;
 using Backend.src.app.Features.Motobikes.infrastructure.Context;
 using Backend.src.app.Features.Motobikes.infrastructure.repositories;
 
+// APPOINTMENTS MODULE
+using Backend.src.app.Features.Appointments.Application.Usecases;
+using Backend.src.app.Features.Appointments.Domain.Interfaces;
+using Backend.src.app.Features.Appointments.Infrastructure.Context;
+using Backend.src.app.Features.Appointments.Infrastructure.Repository;
+
+// FINANCES MODULE
+/*using Backend.src.app.Features.Finances.Application.UseCases;
+using Backend.src.app.Features.Finances.Domain.Interfaces;
+using Backend.src.app.Features.Finances.Infrastructure.Context;
+using Backend.src.app.Features.Finances.Infrastructure.Repository;*/
+
 // SHARED
 using Backend.src.app.Shared.Security;
 using Backend.src.app.Shared.Infrastructure;
@@ -58,7 +70,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .WriteTo.File(
-        path: logPath,  
+        path: logPath,
         rollingInterval: RollingInterval.Day,
         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
     )
@@ -85,7 +97,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
-    options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()); 
+    options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -145,19 +157,16 @@ builder.Services.AddDbContext<MotobikesDbContext>(options =>
         builder.Configuration.GetConnectionString(ConnectionStrings.Default),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
-
-/* builder.Services.AddDbContext<AppointmentsDbContext>(options =>
+builder.Services.AddDbContext<AppointmentsDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString(ConnectionStrings.Default),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
-
-builder.Services.AddDbContext<FinancesDbContext>(options =>
+/*builder.Services.AddDbContext<FinancesDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString(ConnectionStrings.Default),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));*/
-
 
 // Repositorios
 builder.Services.AddScoped<IUserManagementRepository, UserManagementRepository>();
@@ -165,9 +174,8 @@ builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IServicesRepository, ServiceRepository>();
 builder.Services.AddScoped<IMotorbikesRepository, MotorbikesRepository>();
 builder.Services.AddHttpClient<IReplacementsRepository, ReplacementsApiService>();
-// builder.Services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
-// builder.Services.AddScoped<IFinancesRepository, FinancesRepository>();
-
+builder.Services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
+/*builder.Services.AddScoped<IFinancesRepository, FinancesRepository>();*/
 
 // Servicios
 builder.Services.AddScoped<TokenService>();
@@ -199,7 +207,7 @@ builder.Services.AddScoped<GetByIdMotorbikeUsecase>();
 builder.Services.AddScoped<UpdateMotorbikeUsecase>();
 builder.Services.AddScoped<UpdateStatusMotorbikeUsecase>();
 
-/* APPOINTMENTS
+// APPOINTMENTS
 builder.Services.AddScoped<CreateAppointmentUseCase>();
 builder.Services.AddScoped<GetAllAppointmentsUseCase>();
 builder.Services.AddScoped<GetAppointmentByIdUseCase>();
@@ -210,7 +218,7 @@ builder.Services.AddScoped<UpdateAppointmentStateUseCase>();
 builder.Services.AddScoped<AssignAppointmentToEmployeeUseCase>();
 
 // FINANCES
-builder.Services.AddScoped<CreateMovementUseCase>();
+/*builder.Services.AddScoped<CreateMovementUseCase>();
 builder.Services.AddScoped<GetAllMovementsUseCase>();
 builder.Services.AddScoped<GetMovementByIdUseCase>();
 builder.Services.AddScoped<GetMovementsByTypeUseCase>();*/
