@@ -4,7 +4,7 @@ using Backend.src.app.Features.Services.application.exceptions;
 using Backend.src.app.Features.Users.application.Exceptions;
 using Backend.src.app.Features.Motobikes.application.exceptions;
 using Backend.src.app.Integrations.ExternalAPIs.Replacements.Application.Exceptions;
-//using Backend.src.app.Features.Finances.Application.Exceptions;
+using Backend.src.app.Features.Finances.Application.Exceptions;
 using Backend.src.app.Shared.exceptions;
 using System.Net;
 using System.Text.Json;
@@ -78,8 +78,8 @@ public class ErrorHandlerMiddleware
              InvalidEmployeeAssignmentException => (StatusCodes.Status400BadRequest, ex.Message),
 
             // FINANCES
-            /*MovementNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
-            MovementValidationException => (StatusCodes.Status400BadRequest, ex.Message),*/
+            MovementNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
+            MovementValidationException => (StatusCodes.Status400BadRequest, ex.Message),
 
             // DEFAULT
             _ => (StatusCodes.Status500InternalServerError, "Error interno del servidor")
