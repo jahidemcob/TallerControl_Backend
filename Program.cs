@@ -1,12 +1,3 @@
-using System.Text;
-using Serilog;
-
-// FRAMEWORK / ASP.NET CORE
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-
 // AUTH MODULE
 using Backend.src.app.auth.application.Services;
 using Backend.src.app.auth.application.UseCases;
@@ -14,7 +5,31 @@ using Backend.src.app.auth.domain.entities;
 using Backend.src.app.auth.domain.repositories;
 using Backend.src.app.auth.infrastructure.Context;
 using Backend.src.app.auth.infrastructure.Repositories;
-
+// APPOINTMENTS MODULE
+using Backend.src.app.Features.Appointments.Application.Usecases;
+using Backend.src.app.Features.Appointments.Domain.Interfaces;
+using Backend.src.app.Features.Appointments.Infrastructure.Context;
+using Backend.src.app.Features.Appointments.Infrastructure.Repository;
+// FINANCES MODULE
+using Backend.src.app.Features.Finances.Application.UseCases;
+using Backend.src.app.Features.Finances.Domain.Interfaces;
+using Backend.src.app.Features.Finances.Infrastructure.Context;
+using Backend.src.app.Features.Finances.Infrastructure.Repository;
+using Backend.src.app.Features.Inventory.Domain.Interfaces;
+//INVENTORY MODULE
+using Backend.src.app.Features.Inventory.Infrastructure.Context;
+using Backend.src.app.Features.Inventory.Infrastructure.Repository;
+using Backend.src.app.Features.Inventory.Application.UseCases;
+// MOTOBIKES MODULE
+using Backend.src.app.Features.Motobikes.application.usecases;
+using Backend.src.app.Features.Motobikes.domain.repository;
+using Backend.src.app.Features.Motobikes.infrastructure.Context;
+using Backend.src.app.Features.Motobikes.infrastructure.repositories;
+// SERVICES MODULE
+using Backend.src.app.Features.Services.application.usecases;
+using Backend.src.app.Features.Services.domain.repositories;
+using Backend.src.app.Features.Services.infrastructure.Context;
+using Backend.src.app.Features.Services.infrastructure.repositories;
 // USERS MODULE
 using Backend.src.app.Features.Users.application.usecases;
 using Backend.src.app.Features.Users.application.UseCases;
@@ -22,41 +37,24 @@ using Backend.src.app.Features.Users.domain.Entities;
 using Backend.src.app.Features.Users.domain.repositories;
 using Backend.src.app.Features.Users.infrastructure.Context;
 using Backend.src.app.Features.Users.infrastructure.Repositories;
-
-// SERVICES MODULE
-using Backend.src.app.Features.Services.application.usecases;
-using Backend.src.app.Features.Services.domain.repositories;
-using Backend.src.app.Features.Services.infrastructure.Context;
-using Backend.src.app.Features.Services.infrastructure.repositories;
-
-// MOTOBIKES MODULE
-using Backend.src.app.Features.Motobikes.application.usecases;
-using Backend.src.app.Features.Motobikes.domain.repository;
-using Backend.src.app.Features.Motobikes.infrastructure.Context;
-using Backend.src.app.Features.Motobikes.infrastructure.repositories;
-
-// APPOINTMENTS MODULE
-using Backend.src.app.Features.Appointments.Application.Usecases;
-using Backend.src.app.Features.Appointments.Domain.Interfaces;
-using Backend.src.app.Features.Appointments.Infrastructure.Context;
-using Backend.src.app.Features.Appointments.Infrastructure.Repository;
-
-// FINANCES MODULE
-using Backend.src.app.Features.Finances.Application.UseCases;
-using Backend.src.app.Features.Finances.Domain.Interfaces;
-using Backend.src.app.Features.Finances.Infrastructure.Context;
-using Backend.src.app.Features.Finances.Infrastructure.Repository;
-
-// SHARED
-using Backend.src.app.Shared.Security;
-using Backend.src.app.Shared.Infrastructure;
-using Backend.src.app.Shared.Constants;
-using Backend.src.app.Shared.exceptions;
-
+using Backend.src.app.Integrations.ExternalAPIs.Replacements.Application.Usecases;
 // INTEGRATIONS
 using Backend.src.app.Integrations.ExternalAPIs.Replacements.Domain.Interface;
 using Backend.src.app.Integrations.ExternalAPIs.Replacements.Infrastructure.ExternalApiService;
-using Backend.src.app.Integrations.ExternalAPIs.Replacements.Application.Usecases;
+using Backend.src.app.Shared.Constants;
+using Backend.src.app.Shared.exceptions;
+using Backend.src.app.Shared.Infrastructure;
+
+// SHARED
+using Backend.src.app.Shared.Security;
+
+// FRAMEWORK / ASP.NET CORE
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Serilog;
+using System.Text;
 
 
 //Logs 
@@ -167,6 +165,11 @@ builder.Services.AddDbContext<FinancesDbContext>(options =>
         builder.Configuration.GetConnectionString(ConnectionStrings.Default),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
+builder.Services.AddDbContext<InventoryDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString(ConnectionStrings.Default),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+    ));
 
 // Repositorios
 builder.Services.AddScoped<IUserManagementRepository, UserManagementRepository>();
@@ -176,6 +179,12 @@ builder.Services.AddScoped<IMotorbikesRepository, MotorbikesRepository>();
 builder.Services.AddHttpClient<IReplacementsRepository, ReplacementsApiService>();
 builder.Services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
 builder.Services.AddScoped<IFinancesRepository, FinancesRepository>();
+builder.Services.AddScoped<IInventoryCategoryRepository, InventoryCategoryRepository>();
+builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
+builder.Services.AddScoped<IInventoryMovementRepository,InventoryMovementRepository>();
+builder.Services.AddScoped<IAppointmentInventoryItemRepository,AppointmentInventoryItemRepository>();
+builder.Services.AddScoped<IAppointmentStatusProvider,AppointmentStatusProvider>();
+
 
 // Servicios
 builder.Services.AddScoped<TokenService>();
@@ -222,6 +231,41 @@ builder.Services.AddScoped<CreateMovementUseCase>();
 builder.Services.AddScoped<GetAllMovementsUseCase>();
 builder.Services.AddScoped<GetMovementByIdUseCase>();
 builder.Services.AddScoped<GetMovementsByTypeUseCase>();
+
+//INVENTORY - CATEGORIES
+builder.Services.AddScoped<GetInventoryCategoriesUseCase>();
+builder.Services.AddScoped<GetInventoryCategoryByIdUseCase>();
+builder.Services.AddScoped<CreateInventoryCategoryUseCase>();
+builder.Services.AddScoped<UpdateInventoryCategoryUseCase>();
+builder.Services.AddScoped<DeactivateInventoryCategoryUseCase>();
+builder.Services.AddScoped<ReactivateInventoryCategoryUseCase>();
+
+// INVENTORY - ITEMS
+builder.Services.AddScoped<GetInventoryItemsUseCase>();
+builder.Services.AddScoped<GetInventoryItemByIdUseCase>();
+builder.Services.AddScoped<CreateInventoryItemUseCase>();
+builder.Services.AddScoped<UpdateInventoryItemUseCase>();
+builder.Services.AddScoped<DeactivateInventoryItemUseCase>();
+builder.Services.AddScoped<ReactivateInventoryItemUseCase>();
+
+// INVENTORY - MOVEMENTS
+builder.Services.AddScoped<CreateInventoryEntryUseCase>();
+builder.Services.AddScoped<CreateInventoryAdjustmentUseCase>();
+builder.Services.AddScoped<GetInventoryMovementsUseCase>();
+builder.Services.AddScoped<GetInventoryMovementByIdUseCase>();
+builder.Services.AddScoped<CreateInventoryExitUseCase>();
+
+// INVENTORY - APPOINTMENT ITEMS
+builder.Services.AddScoped<RegisterAppointmentInventoryItemUseCase>();
+builder.Services.AddScoped<GetAppointmentInventoryItemsUseCase>();
+builder.Services.AddScoped<UpdateAppointmentInventoryItemUseCase>();
+builder.Services.AddScoped<RemoveAppointmentInventoryItemUseCase>();
+
+// INVENTORY - APPOINTMENT PROCESSING
+builder.Services.AddScoped<
+    IAppointmentInventoryProcessor,
+    ProcessAppointmentInventoryUseCase>();
+
 
 // INTEGRATIONS
 builder.Services.AddScoped<GetAllReplacementsUsecase>();

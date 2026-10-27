@@ -8,6 +8,7 @@ using Backend.src.app.Features.Finances.Infrastructure.Context;
 using Backend.src.app.auth.domain.entities;
 using Backend.src.app.Features.Users.domain.Entities;
 using Backend.src.app.Shared.Security;
+using Backend.src.app.Features.Inventory.Infrastructure.Context;
 
 
 namespace Backend.src.app.Shared.Infrastructure;
@@ -49,6 +50,7 @@ public static class DbInitializer
         var motobikesDb = services.GetRequiredService<MotobikesDbContext>();
         var appointmentsDb = services.GetRequiredService<AppointmentsDbContext>();
         var financesDb = services.GetRequiredService<FinancesDbContext>();
+        var inventoryDb = services.GetRequiredService<InventoryDbContext>();
 
         await authDb.Database.MigrateAsync();
         await usersDb.Database.MigrateAsync();
@@ -56,6 +58,7 @@ public static class DbInitializer
         await motobikesDb.Database.MigrateAsync();
         await appointmentsDb.Database.MigrateAsync();
         await financesDb.Database.MigrateAsync();
+        await inventoryDb.Database.MigrateAsync();
     }
 
     private static async Task SeedDataAsync(IServiceProvider services)
