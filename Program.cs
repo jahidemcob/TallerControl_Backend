@@ -45,6 +45,10 @@ using Backend.src.app.Shared.Constants;
 using Backend.src.app.Shared.exceptions;
 using Backend.src.app.Shared.Infrastructure;
 
+// BACKUP MODULE
+using Backend.src.app.Features.Backup.Domain.Interfaces;
+using Backend.src.app.Features.Backup.Infrastructure.Services;
+
 // SHARED
 using Backend.src.app.Shared.Security;
 
@@ -184,7 +188,7 @@ builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
 builder.Services.AddScoped<IInventoryMovementRepository,InventoryMovementRepository>();
 builder.Services.AddScoped<IAppointmentInventoryItemRepository,AppointmentInventoryItemRepository>();
 builder.Services.AddScoped<IAppointmentStatusProvider,AppointmentStatusProvider>();
-
+builder.Services.AddScoped<IBackupService, BackupService>();
 
 // Servicios
 builder.Services.AddScoped<TokenService>();
