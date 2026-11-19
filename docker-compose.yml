@@ -12,6 +12,8 @@ services:
       - "1433:1433"
     volumes:
       - sql_data:/var/opt/mssql
+      - sql_backups:/var/opt/mssql/backups
+      - Backup__Directory=/var/opt/mssql/backups
     healthcheck:
       test:
         ["CMD-SHELL", "cat /proc/net/tcp | grep -q '00000000:0599' || exit 1"]
@@ -79,6 +81,7 @@ services:
 
 volumes:
   sql_data:
+  sql_backups:
   sonarqube_data:
   sonarqube_logs:
   sonarqube_extensions:

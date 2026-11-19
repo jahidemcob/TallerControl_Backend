@@ -9,6 +9,7 @@ using Backend.src.app.Features.Inventory.Application.Exceptions;
 using Backend.src.app.Shared.exceptions;
 using System.Net;
 using System.Text.Json;
+using Backend.src.app.Features.Backup.Application.Exceptions;
 
 namespace Backend.src.app.Shared.Middleware;
 
@@ -88,6 +89,9 @@ public class ErrorHandlerMiddleware
             InventoryConflictException => (StatusCodes.Status409Conflict, ex.Message),
             InventoryForbiddenException => (StatusCodes.Status403Forbidden, ex.Message),
 
+            // BACKUP
+            BackupValidationException => (StatusCodes.Status400BadRequest, ex.Message),
+            BackupRestoreInProgressException => (StatusCodes.Status409Conflict, ex.Message),
 
             // DEFAULT
             _ => (StatusCodes.Status500InternalServerError, "Error interno del servidor")

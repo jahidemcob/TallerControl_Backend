@@ -1,4 +1,5 @@
-﻿using Backend.src.app.Features.Backup.Domain.Interfaces;
+﻿using Backend.src.app.Features.Backup.Application.DTOs;
+using Backend.src.app.Features.Backup.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,35 @@ public class BackupController : ControllerBase
             filePath,
             "application/octet-stream",
             Path.GetFileName(filePath));
+    }
+
+    // POST: api/backup/restore
+    [HttpPost("restore")]
+    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(2_147_483_648)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 2_147_483_648)]
+    public async Task<IActionResult> RestoreBackup(
+        [FromForm] BackupRestoreRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        if (request.BackupFile is null ||
+            request.BackupFile.Length == 0)
+        {
+            return BadRequest(new
+            {
+                message = "Debe seleccionar un archivo .bak válido."
+            });
+        }
+
+        var result = await _backupService.RestoreBackupAsync(
+            request.BackupFile,
+            cancellationToken);
+
+        return Ok(new
+        {
+            message = "La base de datos fue restaurada correctamente.",
+            data = result
+        });
     }
 
     // DELETE: api/backup/{fileName}

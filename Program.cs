@@ -189,6 +189,7 @@ builder.Services.AddScoped<IInventoryMovementRepository,InventoryMovementReposit
 builder.Services.AddScoped<IAppointmentInventoryItemRepository,AppointmentInventoryItemRepository>();
 builder.Services.AddScoped<IAppointmentStatusProvider,AppointmentStatusProvider>();
 builder.Services.AddScoped<IBackupService, BackupService>();
+builder.Services.AddSingleton<BackupRestoreState>();
 
 // Servicios
 builder.Services.AddScoped<TokenService>();
@@ -328,6 +329,9 @@ app.UseCors("AllowAngular");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<
+    Backend.src.app.Shared.Middleware.BackupRestoreMaintenanceMiddleware>();
 
 app.MapControllers();
 
